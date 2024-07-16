@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:note_app/cubit/add_note_cubit/add_notes_cubit.dart';
+import 'package:note_app/cubit/notes_cubit/notes_cubit_cubit.dart';
 import 'package:note_app/views/widgets/add_note_form.dart';
 
 class AddNoteBottomSheet extends StatelessWidget {
@@ -13,10 +14,9 @@ class AddNoteBottomSheet extends StatelessWidget {
         create: (context) => AddNotesCubit(),
         child: BlocConsumer<AddNotesCubit, AddNotesState>(
             listener: (context, state) {
-          if (state is AddNotesFailure) {
-            print("failed ${state.errorMessage}");
-          }
+          if (state is AddNotesFailure) {}
           if (state is AddNotesSuccess) {
+            BlocProvider.of<NotesCubit>(context).fetchAllNotes();
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 content: Text(
@@ -33,12 +33,11 @@ class AddNoteBottomSheet extends StatelessWidget {
           //AbsorbPointer => It prevent the user from handling anything or pressing on the screen
           return AbsorbPointer(
             absorbing: state is AddNotesLoading ? true : false,
-            child:  Padding(
+            child: Padding(
               padding: EdgeInsets.only(
-                left: 16,
-                 right:16,
-                 bottom: MediaQuery.of(context).viewInsets.bottom
-              ),
+                  left: 16,
+                  right: 16,
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
               child: const SingleChildScrollView(
                 child: AddNoteForm(),
               ),
