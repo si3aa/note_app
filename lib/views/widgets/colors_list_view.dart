@@ -41,19 +41,19 @@ class _ColorListViewState extends State<ColorListView> {
       height: 38 * 2,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: colors.length,
+        itemCount: kColors.length,
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 6),
             child: GestureDetector(
               onTap: () {
                 currentIndex = index;
-                BlocProvider.of<AddNotesCubit>(context).color=colors[index];
+                BlocProvider.of<AddNotesCubit>(context).color=kColors[index];
                 setState(() {});
               },
               child: ColorItem(
                 isSelected: currentIndex == index,
-                color: colors[index],
+                color: kColors[index],
               ),
             ),
           );
